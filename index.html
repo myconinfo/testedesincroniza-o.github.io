@@ -1,45 +1,386 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cobra Neon</title>
-  <link rel="stylesheet" href="styles.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#132b27">
+	<title>Uma coisa qualquer</title>
+	<style>
+		:root {
+			color-scheme: light;
+			--ink: #182a25;
+			--paper: #f3f0e7;
+			--lime: #d8f078;
+			--coral: #f47a5d;
+			--line: rgba(24, 42, 37, .2);
+			font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			min-width: 320px;
+			min-height: 100vh;
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+		}
+
+		button { font: inherit; }
+
+		.scene {
+			position: relative;
+			display: flex;
+			min-height: 100svh;
+			flex-direction: column;
+			overflow: hidden;
+			background: #24483e;
+			isolation: isolate;
+		}
+
+		.scene::before,
+		.scene::after {
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			content: "";
+		}
+
+		.scene::before {
+			background: url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2400&q=85") center 54% / cover;
+			animation: arrive 1.1s ease-out both;
+		}
+
+		.scene::after {
+			background: linear-gradient(90deg, rgba(12, 32, 27, .84) 0%, rgba(12, 32, 27, .61) 48%, rgba(12, 32, 27, .19) 100%), linear-gradient(0deg, rgba(12, 32, 27, .44), transparent 45%);
+		}
+
+		.topbar,
+		.content,
+		.bottomline {
+			width: min(1200px, calc(100% - 72px));
+			margin-inline: auto;
+		}
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-block: 30px;
+			color: white;
+		}
+
+		.wordmark {
+			display: flex;
+			align-items: center;
+			gap: 11px;
+			font-size: 14px;
+			font-weight: 700;
+			letter-spacing: .04em;
+		}
+
+		.mark {
+			display: grid;
+			width: 31px;
+			aspect-ratio: 1;
+			place-items: center;
+			border: 1px solid rgba(255, 255, 255, .72);
+			border-radius: 50%;
+			color: var(--lime);
+			font-size: 20px;
+			line-height: 1;
+		}
+
+		.topnote {
+			color: rgba(255, 255, 255, .76);
+			font-size: 12px;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+		}
+
+		.content {
+			display: grid;
+			flex: 1;
+			grid-template-columns: minmax(0, 1fr) minmax(320px, .78fr);
+			align-items: center;
+			gap: clamp(48px, 9vw, 130px);
+			padding-block: 50px 74px;
+		}
+
+		.intro { color: white; }
+
+		.eyebrow {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			margin: 0 0 23px;
+			color: var(--lime);
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: .16em;
+			text-transform: uppercase;
+		}
+
+		.eyebrow::before {
+			width: 27px;
+			height: 1px;
+			background: currentColor;
+			content: "";
+		}
+
+		h1 {
+			max-width: 600px;
+			margin: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(58px, 8vw, 104px);
+			font-weight: 400;
+			letter-spacing: 0;
+			line-height: .94;
+		}
+
+		.intro-copy {
+			max-width: 350px;
+			margin: 27px 0 0;
+			color: rgba(255, 255, 255, .79);
+			font-size: 16px;
+			line-height: 1.65;
+		}
+
+		.generator {
+			padding: 27px;
+			border: 1px solid rgba(255, 255, 255, .53);
+			background: rgba(243, 240, 231, .96);
+			box-shadow: 0 22px 70px rgba(8, 25, 21, .22);
+			animation: rise .7s .15s ease-out both;
+		}
+
+		.generator-label {
+			margin: 0 0 17px;
+			color: #53655d;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: .13em;
+			text-transform: uppercase;
+		}
+
+		.filters {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 7px;
+			padding-bottom: 23px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.filter {
+			min-height: 36px;
+			padding: 7px 12px;
+			border: 1px solid var(--line);
+			border-radius: 2px;
+			color: var(--ink);
+			background: transparent;
+			cursor: pointer;
+			font-size: 12px;
+			transition: color .18s ease, background .18s ease, border-color .18s ease;
+		}
+
+		.filter:hover { border-color: var(--ink); }
+
+		.filter[aria-pressed="true"] {
+			border-color: var(--ink);
+			color: white;
+			background: var(--ink);
+		}
+
+		.idea-area {
+			display: flex;
+			min-height: 220px;
+			flex-direction: column;
+			justify-content: center;
+			padding-block: 25px 21px;
+		}
+
+		.idea-category {
+			margin: 0 0 12px;
+			color: #76847c;
+			font-size: 11px;
+			letter-spacing: .1em;
+			text-transform: uppercase;
+		}
+
+		.idea-text {
+			margin: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(27px, 3vw, 38px);
+			line-height: 1.16;
+		}
+
+		.idea-meta {
+			display: flex;
+			gap: 17px;
+			margin-top: 20px;
+			color: #637169;
+			font-size: 12px;
+		}
+
+		.idea-meta span { display: inline-flex; align-items: center; gap: 7px; }
+
+		.idea-meta span::before {
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background: var(--coral);
+			content: "";
+		}
+
+		.draw-button {
+			display: flex;
+			width: 100%;
+			min-height: 54px;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 18px;
+			border: 0;
+			border-radius: 2px;
+			color: var(--ink);
+			background: var(--lime);
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			transition: background .18s ease, transform .18s ease;
+		}
+
+		.draw-button:hover { background: #e4ff8a; transform: translateY(-2px); }
+		.draw-button:active { transform: translateY(0); }
+		button:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+		.draw-arrow {
+			font-size: 21px;
+			font-weight: 400;
+			line-height: 1;
+		}
+
+		.bottomline {
+			display: flex;
+			justify-content: space-between;
+			padding-block: 18px 23px;
+			border-top: 1px solid rgba(255, 255, 255, .35);
+			color: rgba(255, 255, 255, .77);
+			font-size: 11px;
+			letter-spacing: .06em;
+		}
+
+		@keyframes arrive { from { transform: scale(1.035); opacity: .5; } to { transform: scale(1); opacity: 1; } }
+		@keyframes rise { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+		@media (max-width: 760px) {
+			.scene::after { background: linear-gradient(90deg, rgba(12, 32, 27, .78), rgba(12, 32, 27, .38)), linear-gradient(0deg, rgba(12, 32, 27, .58), transparent 70%); }
+			.topbar, .content, .bottomline { width: min(100% - 36px, 520px); }
+			.topbar { padding-block: 19px; }
+			.topnote { max-width: 125px; text-align: right; font-size: 10px; }
+			.content { grid-template-columns: 1fr; gap: 30px; padding-block: 48px 42px; }
+			h1 { max-width: 450px; font-size: clamp(58px, 15vw, 82px); }
+			.intro-copy { margin-top: 17px; font-size: 14px; }
+			.generator { padding: 21px; }
+			.idea-area { min-height: 190px; }
+			.bottomline { padding-block: 15px 18px; font-size: 10px; }
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+		}
+	</style>
 </head>
 <body>
-  <main class="game-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">ARCADE / 01</p>
-        <h1>Cobra Neon</h1>
-      </div>
-      <div class="scoreboard" aria-label="Placar">
-        <div><span>PONTOS</span><strong id="score">0</strong></div>
-        <div><span>RECORDE</span><strong id="best-score">0</strong></div>
-      </div>
-    </header>
+	<main class="scene">
+		<header class="topbar">
+			<div class="wordmark"><span class="mark" aria-hidden="true">+</span> CLUBE DO ACASO</div>
+			<span class="topnote">um empurrãozinho para sair do automático</span>
+		</header>
 
-    <section class="game-card" aria-label="Área do jogo">
-      <div class="game-meta">
-        <span id="status">Pronta para jogar</span>
-        <button id="pause-button" class="icon-button" type="button" aria-label="Pausar jogo" title="Pausar jogo">II</button>
-      </div>
-      <canvas id="game-canvas" width="600" height="600" aria-label="Tabuleiro do jogo da cobra"></canvas>
-      <div class="controls" aria-label="Controles direcionais">
-        <button data-direction="up" type="button" aria-label="Mover para cima">▲</button>
-        <div>
-          <button data-direction="left" type="button" aria-label="Mover para a esquerda">◀</button>
-          <button data-direction="down" type="button" aria-label="Mover para baixo">▼</button>
-          <button data-direction="right" type="button" aria-label="Mover para a direita">▶</button>
-        </div>
-      </div>
-    </section>
+		<section class="content" aria-labelledby="page-title">
+			<div class="intro">
+				<p class="eyebrow">Pequenas ideias, dias melhores</p>
+				<h1 id="page-title">Uma coisa<br>qualquer.</h1>
+				<p class="intro-copy">Às vezes, só falta uma ideia pequena para o dia ganhar outro rumo.</p>
+			</div>
 
-    <footer>
-      <span>Use as setas ou WASD</span>
-      <button id="restart-button" class="text-button" type="button">Novo jogo <span>↗</span></button>
-    </footer>
-  </main>
-  <script src="script.js"></script>
+			<section class="generator" aria-label="Sorteio de ideias">
+				<p class="generator-label">Escolha o clima</p>
+				<div class="filters" role="group" aria-label="Categoria da ideia">
+					<button class="filter" type="button" data-category="todas" aria-pressed="true">Qualquer</button>
+					<button class="filter" type="button" data-category="casa" aria-pressed="false">Em casa</button>
+					<button class="filter" type="button" data-category="rua" aria-pressed="false">Na rua</button>
+					<button class="filter" type="button" data-category="criar" aria-pressed="false">Criar</button>
+				</div>
+				<div class="idea-area" aria-live="polite" aria-atomic="true">
+					<p class="idea-category" id="idea-category">IDEIA DE AGORA</p>
+					<p class="idea-text" id="idea-text">Faça uma playlist para uma versão sua que ainda não existe.</p>
+					<div class="idea-meta"><span id="idea-time">10 min</span><span id="idea-cost">sem gastar</span></div>
+				</div>
+				<button class="draw-button" id="draw-button" type="button">
+					Sortear outra ideia <span class="draw-arrow" aria-hidden="true">↗</span>
+				</button>
+			</section>
+		</section>
+
+		<footer class="bottomline">
+			<span>SEM PRESSA. SEM JEITO CERTO.</span>
+			<span id="idea-count">16 ideias para descobrir</span>
+		</footer>
+	</main>
+
+	<script>
+		const ideas = [
+			{ category: "casa", text: "Faça uma playlist para uma versão sua que ainda não existe.", time: "10 min", cost: "sem gastar" },
+			{ category: "casa", text: "Prepare um lanche caprichado e coma longe de qualquer tela.", time: "15 min", cost: "com o que tem" },
+			{ category: "casa", text: "Escolha um livro ao acaso e leia só a página 42.", time: "5 min", cost: "sem gastar" },
+			{ category: "casa", text: "Mude um objeto de lugar e veja o canto com outros olhos.", time: "5 min", cost: "sem gastar" },
+			{ category: "casa", text: "Desenhe o que estiver na sua frente sem tirar o lápis do papel.", time: "10 min", cost: "sem gastar" },
+			{ category: "rua", text: "Caminhe por uma rua onde você nunca entrou.", time: "20 min", cost: "sem gastar" },
+			{ category: "rua", text: "Entre numa padaria nova e escolha algo pelo nome mais curioso.", time: "15 min", cost: "a partir de R$ 5" },
+			{ category: "rua", text: "Encontre um banco ao sol e observe a vida passar por dez minutos.", time: "10 min", cost: "sem gastar" },
+			{ category: "rua", text: "Fotografe três coisas pequenas que normalmente passam despercebidas.", time: "15 min", cost: "sem gastar" },
+			{ category: "rua", text: "Faça o caminho de sempre ouvindo uma música que alguém indicou.", time: "10 min", cost: "sem gastar" },
+			{ category: "criar", text: "Escreva um bilhete gentil e deixe para alguém encontrar.", time: "10 min", cost: "sem gastar" },
+			{ category: "criar", text: "Invente um nome e uma história para uma nuvem.", time: "5 min", cost: "sem gastar" },
+			{ category: "criar", text: "Faça uma lista de dez coisas que têm a sua cor favorita.", time: "7 min", cost: "sem gastar" },
+			{ category: "criar", text: "Escreva uma mensagem para você mesmo abrir daqui a um ano.", time: "10 min", cost: "sem gastar" },
+			{ category: "criar", text: "Misture duas palavras aleatórias e invente o que significam.", time: "5 min", cost: "sem gastar" },
+			{ category: "casa", text: "Ligue para alguém só para contar uma lembrança boa.", time: "10 min", cost: "sem gastar" }
+		];
+
+		const filterButtons = [...document.querySelectorAll(".filter")];
+		const textOutput = document.querySelector("#idea-text");
+		const categoryOutput = document.querySelector("#idea-category");
+		const timeOutput = document.querySelector("#idea-time");
+		const costOutput = document.querySelector("#idea-cost");
+		const countOutput = document.querySelector("#idea-count");
+		let activeCategory = "todas";
+		let previousIdea = ideas[0];
+
+		function drawIdea() {
+			const available = ideas.filter((idea) => activeCategory === "todas" || idea.category === activeCategory);
+			const options = available.filter((idea) => idea !== previousIdea);
+			const chosen = options[Math.floor(Math.random() * options.length)];
+			previousIdea = chosen;
+
+			textOutput.textContent = chosen.text;
+			categoryOutput.textContent = activeCategory === "todas" ? "IDEIA DE AGORA" : chosen.category === "casa" ? "EM CASA" : chosen.category === "rua" ? "NA RUA" : "PARA CRIAR";
+			timeOutput.textContent = chosen.time;
+			costOutput.textContent = chosen.cost;
+			textOutput.animate([{ opacity: .25, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 260, easing: "ease-out" });
+		}
+
+		filterButtons.forEach((button) => {
+			button.addEventListener("click", () => {
+				activeCategory = button.dataset.category;
+				filterButtons.forEach((filter) => filter.setAttribute("aria-pressed", String(filter === button)));
+				countOutput.textContent = `${ideas.filter((idea) => activeCategory === "todas" || idea.category === activeCategory).length} ideias para descobrir`;
+				drawIdea();
+			});
+		});
+
+		document.querySelector("#draw-button").addEventListener("click", drawIdea);
+	</script>
 </body>
 </html>
