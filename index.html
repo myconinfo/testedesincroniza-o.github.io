@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cobra Neon</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ARCADE / 01</p>
+        <h1>Cobra Neon</h1>
+      </div>
+      <div class="scoreboard" aria-label="Placar">
+        <div><span>PONTOS</span><strong id="score">0</strong></div>
+        <div><span>RECORDE</span><strong id="best-score">0</strong></div>
+      </div>
+    </header>
+
+    <section class="game-card" aria-label="Área do jogo">
+      <div class="game-meta">
+        <span id="status">Pronta para jogar</span>
+        <button id="pause-button" class="icon-button" type="button" aria-label="Pausar jogo" title="Pausar jogo">II</button>
+      </div>
+      <canvas id="game-canvas" width="600" height="600" aria-label="Tabuleiro do jogo da cobra"></canvas>
+      <div class="controls" aria-label="Controles direcionais">
+        <button data-direction="up" type="button" aria-label="Mover para cima">▲</button>
+        <div>
+          <button data-direction="left" type="button" aria-label="Mover para a esquerda">◀</button>
+          <button data-direction="down" type="button" aria-label="Mover para baixo">▼</button>
+          <button data-direction="right" type="button" aria-label="Mover para a direita">▶</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Use as setas ou WASD</span>
+      <button id="restart-button" class="text-button" type="button">Novo jogo <span>↗</span></button>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #18221e;
+  --muted: #6f7c73;
+  --paper: #f3f1e9;
+  --panel: #fbfaf5;
+  --line: #d8ddd2;
+  --green: #236b4b;
+  --lime: #d7ef84;
+  --orange: #f07d4f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .38;
+  content: '';
+  background-image: linear-gradient(rgba(35, 107, 75, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(35, 107, 75, .07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.game-shell { width: min(720px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 28px; }
+.topbar, footer, .game-meta { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.eyebrow { margin: 0 0 8px; color: var(--green); font: 500 12px 'DM Mono', monospace; letter-spacing: .12em; }
+h1 { margin: 0; font-size: clamp(2.2rem, 7vw, 4.5rem); line-height: .95; letter-spacing: -.06em; }
+.scoreboard { display: flex; gap: 24px; text-align: right; }
+.scoreboard div { display: grid; gap: 4px; }
+.scoreboard span, footer { color: var(--muted); font: 500 11px 'DM Mono', monospace; letter-spacing: .08em; }
+.scoreboard strong { font-size: 25px; line-height: 1; }
+.game-card { margin-top: 34px; padding: 18px; border: 1px solid var(--line); background: var(--panel); box-shadow: 8px 8px 0 rgba(35, 107, 75, .12); }
+.game-meta { padding: 0 2px 14px; color: var(--muted); font: 500 12px 'DM Mono', monospace; }
+.icon-button, .controls button { border: 1px solid var(--line); color: var(--green); background: var(--paper); font: 600 14px 'DM Mono', monospace; cursor: pointer; }
+.icon-button { width: 34px; height: 30px; }
+.icon-button:hover, .controls button:hover { color: var(--panel); background: var(--green); }
+canvas { display: block; width: 100%; height: auto; border: 1px solid #bfcabd; background: #e7edda; image-rendering: pixelated; }
+.controls { display: none; margin: 18px auto 0; text-align: center; }
+.controls div { display: flex; justify-content: center; }
+.controls button { width: 42px; height: 38px; margin: 2px; }
+footer { margin-top: 20px; }
+.text-button { border: 0; padding: 0; color: var(--green); background: transparent; font: 600 12px 'DM Mono', monospace; cursor: pointer; }
+.text-button span { display: inline-block; margin-left: 4px; transition: transform .2s; }
+.text-button:hover span { transform: translate(3px, -3px); }
+
+@media (max-width: 560px) {
+  .game-shell { padding-top: 28px; }
+  .topbar { align-items: flex-end; }
+  .scoreboard { gap: 12px; }
+  .scoreboard strong { font-size: 20px; }
+  .game-card { margin-top: 26px; padding: 11px; }
+  .controls { display: block; }
+  footer { align-items: flex-start; flex-direction: column; gap: 12px; }
+}
